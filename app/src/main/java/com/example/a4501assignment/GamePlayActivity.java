@@ -49,7 +49,6 @@ public class GamePlayActivity extends AppCompatActivity {
             }
         });
 
-        startNewRound();
     }
 
     private void startNewRound() {
@@ -204,7 +203,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
     private void updateAIView(int left, int right, int guess) {
         TextView AiHand = findViewById(R.id.AiHand);
-        AiHand.setText(currentRound % 2 == 1
+        AiHand.setText(currentRound % 2 == 0
                 ? opponentName + "'s Hands"
                 : opponentName + "'s Hands, " + opponentName + "'s Guess: " + guess);
 

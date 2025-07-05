@@ -13,8 +13,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
+    private static final int REQUEST_LEFT_HAND = 1;
     private ListView opponentListView;
     private ArrayList<String> opponentList;
+    private String opponentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class GameActivity extends AppCompatActivity {
             showConfirmationDialog(selectedOpponent);
         });
     }
+
     private void showConfirmationDialog(String opponentName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm selection")
@@ -55,6 +58,7 @@ public class GameActivity extends AppCompatActivity {
                             "You have chosen " + opponentName + " as your opponent",
                             Toast.LENGTH_SHORT
                     ).show();
+                    this.opponentName = opponentName;
                     startGameWithOpponent(opponentName);
                 })
                 .setNegativeButton("Cancel", (dialog, which) -> {
@@ -64,8 +68,19 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void startGameWithOpponent(String opponentName) {
-        Intent intent = new Intent(GameActivity.this, LeftHandActivity.class);
+        Intent intent = new Intent(GameActivity.this, GamePlayActivity.class);
         intent.putExtra("opponent_name", opponentName);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_LEFT_HAND && resultCode == RESULT_OK) {
+            Intent intent = new Intent(GameActivity.this, LeftHandActivity.class);
+            intent.putExtra("opponent_name", opponentName);
+            startActivity(intent);
+            finish();
+        }
     }
 }
