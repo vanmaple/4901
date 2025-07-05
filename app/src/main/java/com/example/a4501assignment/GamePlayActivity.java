@@ -49,11 +49,13 @@ public class GamePlayActivity extends AppCompatActivity {
             }
         });
 
+        startNewRound();
     }
 
     private void startNewRound() {
-        isRoundActive = true;
+        // 在一轮开始时更新 UI，显示当前轮数
         updateUI();
+        isRoundActive = true;
 
         Intent intent = new Intent(this, LeftHandActivity.class);
         intent.putExtra("opponent_name", opponentName);
@@ -153,6 +155,7 @@ public class GamePlayActivity extends AppCompatActivity {
         if (playerStreak >= REQUIRED_STREAK || computerStreak >= REQUIRED_STREAK) {
             showFinalResult();
         } else {
+            // 一轮结束后递增 currentRound
             currentRound++;
             isRoundActive = false;
             updateUI();
@@ -203,7 +206,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
     private void updateAIView(int left, int right, int guess) {
         TextView AiHand = findViewById(R.id.AiHand);
-        AiHand.setText(currentRound % 2 == 0
+        AiHand.setText(currentRound % 2 == 1
                 ? opponentName + "'s Hands"
                 : opponentName + "'s Hands, " + opponentName + "'s Guess: " + guess);
 
